@@ -1,0 +1,96 @@
+version: '3.8'
+services:
+  qdrant_peer_1:
+    image: qdrant/qdrant
+    environment:
+      QDRANT__CLUSTER__ENABLED: 'true'
+      QDRANT__STORAGE__DATA_PATH: '/data/peer'
+      QDRANT__NETWORK__PEER_ADDRESS: '0.0.0.0:6335'
+      QDRANT__CLUSTER__P2P__PORT: '6335'
+      QDRANT__CLUSTER__CONSENSUS__TICK_PERIOD_MS: '100'
+    volumes:
+      - ./data/peer_1:/data/peer
+    ports:
+      - '6333:6333' # HTTP API
+      - '6335:6335' # Peer-to-peer communication
+    command: >
+      sh -c "
+        ./qdrant --uri 'http://qdrant_peer_1:6335'
+      "
+
+  qdrant_peer_2:
+    image: qdrant/qdrant
+    environment:
+      QDRANT__CLUSTER__ENABLED: 'true'
+      QDRANT__STORAGE__DATA_PATH: '/data/peer'
+      QDRANT__NETWORK__PEER_ADDRESS: '0.0.0.0:6335'
+      QDRANT__CLUSTER__P2P__PORT: '6335'
+      QDRANT__CLUSTER__CONSENSUS__TICK_PERIOD_MS: '100'
+    volumes:
+      - ./data/peer_2:/data/peer
+    ports:
+      - '6333' # HTTP API external access
+      - '6335' # Peer-to-peer communication external access (for demonstration; not used internally)
+    depends_on:
+      - qdrant_peer_1
+    command: >
+      sh -c "
+        ./qdrant --bootstrap 'http://qdrant_peer_1:6335' --uri 'http://qdrant_peer_2:6335'
+      "
+  qdrant_peer_3:
+    image: qdrant/qdrant
+    environment:
+      QDRANT__CLUSTER__ENABLED: 'true'
+      QDRANT__STORAGE__DATA_PATH: '/data/peer'
+      QDRANT__NETWORK__PEER_ADDRESS: '0.0.0.0:6335'
+      QDRANT__CLUSTER__P2P__PORT: '6335'
+      QDRANT__CLUSTER__CONSENSUS__TICK_PERIOD_MS: '100'
+    volumes:
+      - ./data/peer_3:/data/peer
+    ports:
+      - '6333' # HTTP API external access
+      - '6335' # Peer-to-peer communication external access (for demonstration; not used internally)
+    depends_on:
+      - qdrant_peer_1
+    command: >
+      sh -c "
+        ./qdrant --bootstrap 'http://qdrant_peer_1:6335' --uri 'http://qdrant_peer_3:6335'
+      "
+  qdrant_peer_4:
+    image: qdrant/qdrant
+    environment:
+      QDRANT__CLUSTER__ENABLED: 'true'
+      QDRANT__STORAGE__DATA_PATH: '/data/peer'
+      QDRANT__NETWORK__PEER_ADDRESS: '0.0.0.0:6335'
+      QDRANT__CLUSTER__P2P__PORT: '6335'
+      QDRANT__CLUSTER__CONSENSUS__TICK_PERIOD_MS: '100'
+    volumes:
+      - ./data/peer_4:/data/peer
+    ports:
+      - '6333' # HTTP API external access
+      - '6335' # Peer-to-peer communication external access (for demonstration; not used internally)
+    depends_on:
+      - qdrant_peer_1
+    command: >
+      sh -c "
+        ./qdrant --bootstrap 'http://qdrant_peer_1:6335' --uri 'http://qdrant_peer_4:6335'
+      "
+  qdrant_peer_5:
+    image: qdrant/qdrant
+    environment:
+      QDRANT__CLUSTER__ENABLED: 'true'
+      QDRANT__STORAGE__DATA_PATH: '/data/peer'
+      QDRANT__NETWORK__PEER_ADDRESS: '0.0.0.0:6335'
+      QDRANT__CLUSTER__P2P__PORT: '6335'
+      QDRANT__CLUSTER__CONSENSUS__TICK_PERIOD_MS: '100'
+    volumes:
+      - ./data/peer_5:/data/peer
+    ports:
+      - '6333' # HTTP API external access
+      - '6335' # Peer-to-peer communication external access (for demonstration; not used internally)
+    depends_on:
+      - qdrant_peer_1
+    command: >
+      sh -c "
+        ./qdrant --bootstrap 'http://qdrant_peer_1:6335' --uri 'http://qdrant_peer_5:6335'
+      "            
